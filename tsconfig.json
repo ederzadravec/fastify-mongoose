@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "typeRoots": ["./node_modules/@types"],
+    "outDir": "dist",
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": false,
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "declaration": true
+  },
+  "include": ["src/*.ts", "src/*.d*ts"],
+  "exclude": ["node_modules"]
+}
