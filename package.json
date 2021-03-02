@@ -5,6 +5,7 @@
   "repository": "git@github.com:ederzadravec/fastify-mongoose.git",
   "author": "Éder Zadravec <ederzadravec@gmail.com>",
   "license": "MIT",
+  "private": false,
   "scripts": {
     "build": "tsc --project tsconfig.json "
   },
