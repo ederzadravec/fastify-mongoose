@@ -1,6 +1,6 @@
 import { FastifyInstance, HookHandlerDoneFunction } from 'fastify';
 import * as mongoose from 'mongoose';
-
+import FP from 'fastify-plugin'
 export interface Model {
   name: string;
   alias?: string;
@@ -23,7 +23,7 @@ export interface Decorator {
 }
 
 
-export const plugin = async (
+const register = async (
   fastify: FastifyInstance,
   { uri, settings, models, useNameAndAlias }: Options,
   done: HookHandlerDoneFunction
@@ -73,3 +73,5 @@ export const plugin = async (
 
   done();
 };
+
+export const plugin = FP(register)
