@@ -1,6 +1,6 @@
 import { FastifyInstance, HookHandlerDoneFunction } from 'fastify';
 import * as mongoose from 'mongoose';
-import FP from 'fastify-plugin'
+import FP from 'fastify-plugin';
 export interface Model {
   name: string;
   alias?: string;
@@ -22,7 +22,6 @@ export interface Decorator {
   instance: mongoose.Connection | void;
 }
 
-
 const register = async (
   fastify: FastifyInstance,
   { uri, settings, models, useNameAndAlias }: Options,
@@ -30,7 +29,10 @@ const register = async (
 ) => {
   const instance = await mongoose
     .connect(uri, settings)
-    .then(() => console.log('Mongo connected'))
+    .then((instance) => {
+      console.log('Mongo connected');
+      return instance;
+    })
     .catch((error: any) => console.log('Mongo connection error: ', error));
 
   fastify.addHook('onClose', (app: any, done: any) => {
@@ -74,4 +76,4 @@ const register = async (
   done();
 };
 
-export const plugin = FP(register)
+export const plugin = FP(register);
