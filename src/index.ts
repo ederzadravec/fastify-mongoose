@@ -13,8 +13,9 @@ export interface Model {
 export interface Options {
   uri: string;
   settings?: mongoose.ConnectionOptions;
-  models?: Model[];
+  models?: Model[] | mongoose.Model<any>[];
   useNameAndAlias?: boolean;
+  modelIsSchema?: boolean;
 }
 
 export interface Decorator {
@@ -24,7 +25,7 @@ export interface Decorator {
 
 const register = async (
   fastify: FastifyInstance,
-  { uri, settings, models, useNameAndAlias }: Options,
+  { uri, settings, models, useNameAndAlias, modelIsSchema = true }: Options,
   done: HookHandlerDoneFunction
 ) => {
   const instance = await mongoose
@@ -48,6 +49,11 @@ const register = async (
 
   if (models && models.length !== 0) {
     models.forEach((model) => {
+      if (!modelIsSchema) {
+        decorator = { ...decorator, [model.modelName]: model };
+        return;
+      }
+
       const schema = new mongoose.Schema(model.schema, model.options);
 
       if (model.class) schema.loadClass(model.class);
