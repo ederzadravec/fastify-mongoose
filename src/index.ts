@@ -12,7 +12,7 @@ export interface Model {
 
 export interface Options {
   uri: string;
-  settings?: mongoose.ConnectionOptions;
+  settings?: mongoose.ConnectOptions;
   models?: Model[] | mongoose.Model<any>[];
   useNameAndAlias?: boolean;
   modelIsSchema?: boolean;
@@ -25,8 +25,7 @@ export interface Decorator {
 
 const register = async (
   fastify: FastifyInstance,
-  { uri, settings, models, useNameAndAlias, modelIsSchema = true }: Options,
-  done: HookHandlerDoneFunction
+  { uri, settings, models, useNameAndAlias, modelIsSchema = true }: Options
 ) => {
   const instance = await mongoose
     .connect(uri, settings)
@@ -79,7 +78,9 @@ const register = async (
 
   fastify.decorate('mongoose', decorator);
 
-  done();
+  return;
 };
 
-export const plugin = FP(register);
+export const plugin = FP(register, {
+  name: 'fastify-mongoose',
+});
